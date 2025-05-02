@@ -5,6 +5,7 @@ import {
   FlatList,
   Dimensions,
   Modal,
+  TouchableOpacity,
 } from 'react-native';
 import {styles} from './styles';
 import CustomButton from '../../components/CustomButton/CustomButton';
@@ -12,6 +13,7 @@ import {useTypedNavigation} from '../../hooks/useTypedNavigation';
 import useAppContext from '../../hooks/useAppContext';
 import {themes} from '../../assets/themes';
 import {useEffect, useState} from 'react';
+import { House, SignOut } from 'phosphor-react-native';
 
 interface RouterCardProps {
   name: string;
@@ -55,6 +57,16 @@ function RouterCard({name, description, title, params}: RouterCardProps) {
 }
 
 const routes = [
+  {
+    name: 'Carrousel',
+    title: 'Exemplo Carrousel',
+    description: 'Component Carrousel',
+  },
+  {
+    name: 'FormElement',
+    title: 'Exemplo de Forms',
+    description: 'FormElements',
+  },
   {
     name: 'Hello',
     title: 'Hello Route',
@@ -102,63 +114,86 @@ const routes = [
 ];
 
 export default function Home() {
-  const {
-    auth: {logout},
-  } = useAppContext();
 
   const [show, setShow] = useState(false);
+  const { auth: { logout } } = useAppContext();
+
+
+
   // useEffect(() => {
-  //   const timer = setTimeout(() => {
-  //     setShow(true);
-  //   }, 3000);
-  //   return () => clearTimeout(timer);
-  // }, []);
+  //     const timer = setTimeout(() => {
+  //         setShow(true);
+  //     }, 3000);
+
+  //     return () => clearTimeout(timer);
+  // }, [])
 
   return (
-    <SafeAreaView style={styles.container}>
-      <CustomButton
-        text="Logout"
-        color={themes.colors.perigo}
-        onClick={() => logout()}
-      />
-      <Text style={styles.title}>Home Page</Text>
-      <FlatList
-        data={routes}
-        renderItem={({item}) => (
-          <View
-            style={{
-              width: Dimensions.get('window').width,
-              alignItems: 'center',
-              justifyContent: 'center',
-              marginBottom: 20,
-            }}>
-            <RouterCard
-              name={item.name}
-              title={item.title}
-              description={item.description}
-              params={item.params}
-            />
+      <View style={styles.container}>
+          <Modal
+              animationType="fade"
+              visible={show}
+              statusBarTranslucent={true}
+              onRequestClose={() => setShow(false)}
+          >
+              <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
+                  <Text>Modal</Text>
+                  <TouchableOpacity onPress={() => setShow(false)}>
+                      <Text>Close</Text>
+                  </TouchableOpacity>
+              </View>
+          </Modal>
+          <View style={styles.header}>
+              <View style={styles.iconBox}>
+
+                  <TouchableOpacity
+                      onPress={() => {
+                          setShow(true);
+                      }}
+                  >
+                      <House size={32} color="#000" />
+                  </TouchableOpacity>
+                  {/* <TouchableOpacity
+                      onPress={() => {
+                          Toast.show({
+                              type: 'info',
+                              text1: 'Info',
+                              text2: 'This is a toast message!',
+                          });
+                      }}
+                  >
+                      <House size={32} color="#000" />
+                  </TouchableOpacity> */}
+                  <TouchableOpacity
+                      onPress={() => {
+                          logout && logout()
+                      }}
+                  >
+                      <SignOut size={32} color="#000" />
+                  </TouchableOpacity>
+              </View>
+              <Text style={styles.title}>
+                  Home Page
+              </Text>
           </View>
-        )}
-        keyExtractor={item => item.name}
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={{paddingBottom: 30}}
-      />
- 
-      <Modal
-        animationType="fade"
-        visible={show}
-        onRequestClose={() => setShow(false)}
-        statusBarTranslucent={true}>
-        <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-          <Text>Modal</Text>
-          <CustomButton
-            text="Fechar"
-            color={themes.colors.perigo}
-            onClick={() => setShow(false)}
-          />
-        </View>
-      </Modal>
-    </SafeAreaView>
+          <View style={{flex: 1}}>
+              <FlatList
+                  data={routes}
+                  renderItem={({ item }) => (
+                      <View style={{ width: Dimensions.get('window').width, alignItems: 'center', justifyContent: 'center', marginBottom: 20 }}>
+                          <RouterCard
+                              name={item.name}
+                              title={item.title}
+                              description={item.description}
+                              params={item.params}
+                          />
+                      </View>
+                  )}
+                  keyExtractor={(item) => item.name}
+                  showsVerticalScrollIndicator={false}
+                  contentContainerStyle={{ paddingBottom: 30 }}
+              />
+          </View>
+      </View>
   );
 }

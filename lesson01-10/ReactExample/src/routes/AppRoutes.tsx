@@ -15,8 +15,10 @@ import Count from '../pages/Count/Count';
 import Login from '../pages/Login/Login';
 import {useEffect, useState} from 'react';
 import useAppContext from '../hooks/useAppContext';
-import { ActivityIndicator, View } from 'react-native';
-import { themes } from '../assets/themes';
+import {ActivityIndicator, View} from 'react-native';
+import {themes} from '../assets/themes';
+import Carrousel from '../pages/Carrousel/Carrousel';
+import FormElement from '../pages/FormElements/FormElements';
 
 export type MainStackParamList = {
   Hello: {name: string; isError: boolean};
@@ -32,13 +34,15 @@ export type MainStackParamList = {
   UseMemo: undefined;
   Count: undefined;
   Login: undefined;
+  Carrousel: undefined;
+  FormElement: undefined;
 };
 
 const MainStack = createStackNavigator<MainStackParamList>();
 
 function MainStackScreen() {
   return (
-    <MainStack.Navigator initialRouteName="Home">
+    <MainStack.Navigator initialRouteName="FormElement">
       <MainStack.Group
         screenOptions={{
           headerShown: false,
@@ -55,6 +59,8 @@ function MainStackScreen() {
         <MainStack.Screen name="UseRef" component={UseRef} />
         <MainStack.Screen name="UseMemo" component={UseMemo} />
         <MainStack.Screen name="Count" component={Count} />
+        <MainStack.Screen name="Carrousel" component={Carrousel} />
+        <MainStack.Screen name="FormElement" component={FormElement} />
       </MainStack.Group>
     </MainStack.Navigator>
   );
@@ -83,17 +89,15 @@ export default function AppRoutes() {
   } = useAppContext();
 
   useEffect(() => {
-    if(isAuthenticate !== null) setIsLoading(false);
+    if (isAuthenticate !== null) setIsLoading(false);
   }, [isAuthenticate]);
-  return (
-    isLoading ? (
-      <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-        <ActivityIndicator size={'large'} color={themes.colors.primary}/>
-      </View>
-    ): (
-      <NavigationContainer>
-        {isAuthenticate ? <MainStackScreen /> : <LoginStackScreen />}
-      </NavigationContainer>
-    )
+  return isLoading ? (
+    <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+      <ActivityIndicator size={'large'} color={themes.colors.primary} />
+    </View>
+  ) : (
+    <NavigationContainer>
+      {isAuthenticate ? <MainStackScreen /> : <LoginStackScreen />}
+    </NavigationContainer>
   );
 }

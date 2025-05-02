@@ -10,6 +10,8 @@
     "test": "jest"
   },
   "dependencies": {
+    "@react-native-community/datetimepicker": "^8.3.0",
+    "@react-native-community/geolocation": "^3.4.0",
     "@react-native-masked-view/masked-view": "^0.3.2",
     "@react-navigation/native": "^7.1.6",
     "@react-navigation/stack": "^7.2.10",
@@ -18,7 +20,9 @@
     "react": "19.0.0",
     "react-native": "0.79.1",
     "react-native-gesture-handler": "^2.25.0",
+    "react-native-image-picker": "^8.2.0",
     "react-native-keychain": "^9.2.2",
+    "react-native-maps": "^1.22.6",
     "react-native-safe-area-context": "^5.4.0",
     "react-native-screens": "^4.10.0",
     "react-native-svg": "^15.11.2",

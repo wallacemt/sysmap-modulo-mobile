@@ -15,6 +15,7 @@ export const themes = {
     white: '#fff',
     softBlack: '#404040',
     softWhite: '#a1a1a1',
+    whiteA1: '#d9d9d9',
     whiteA2: '#d4d4d4',
     whiteA3: '#e5e5e5',
     perigo: '#e70008',
